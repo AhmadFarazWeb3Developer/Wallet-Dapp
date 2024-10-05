@@ -10,7 +10,10 @@ const config = {
         customBlue: "#24a0ed", // Add your custom color here
       },
       boxShadow: {
-        custom: "0 4px 15px rgba(0, 0, 0, 0.3)",
+        custom: "2px 2px 50px 4px rgba(148,108,148,0.4)",
+      },
+      fontFamily: {
+        jetbrains: ['"JetBrains Mono"', "monospace"],
       },
     },
   },
