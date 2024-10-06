@@ -4,6 +4,7 @@ import SendTokens from "./components/SendTokens/SendTokens";
 import { Main } from "./components/Main/Main";
 import { Transaction } from "./components/TransactionDetails/Transaction";
 import { Route, Routes } from "react-router-dom";
+
 function App() {
   return (
     <>
