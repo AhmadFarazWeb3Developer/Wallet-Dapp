@@ -4,12 +4,20 @@ import { RxAvatar } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 export default function ConfirmTransaction() {
+  const navigate = useNavigate();
+  const handleBackNavigate = () => {
+    navigate("/sendTokens");
+  };
+  const handleReject = () => {
+    navigate("/");
+  };
   return (
-    <main className=" bg-customDarkBlue w-1/3 h-4/5 mt-10 flex items-center flex-col pt-1 rounded-md shadow-myShadow pt-2">
+    <main className=" bg-customDarkBlue w-1/3 h-4/5 mt-10 flex items-center flex-col  rounded-md shadow-myShadow pt-2">
       <header className="flex items-center w-full pl-4 ">
-        <div className="cursor-pointer">
+        <div className="cursor-pointer" onClick={handleBackNavigate}>
           <IoChevronBackCircle size={24} color="" />
         </div>
         <h1 className=" ml-2 text-blue-800">Edit</h1>
@@ -44,7 +52,10 @@ export default function ConfirmTransaction() {
       </div>
 
       <div className=" flex justify-around gap-5 items-center  w-2/3  mt-16">
-        <div className="flex  justify-around items-center w-full py-2 px-6 border border-blue-800 shadow-2xl hover:bg-blue-950 rounded-3xl cursor-pointer">
+        <div
+          onClick={handleReject}
+          className="flex  justify-around items-center w-full py-2 px-6 border border-blue-800 shadow-2xl hover:bg-blue-950 rounded-3xl cursor-pointer"
+        >
           <p className=" text-customBlue font-medium">Reject</p>
           <RxCross2 size={24} color="#326BFF" />
         </div>
