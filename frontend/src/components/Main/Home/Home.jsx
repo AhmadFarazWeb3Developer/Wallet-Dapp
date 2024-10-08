@@ -5,21 +5,41 @@ import Transaction from "../Transaction/Transaction";
 import { IoMdArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import SendTokens from "../../SendTokens/SendTokens";
+import { useComponentContext } from "../../../blockchain/context/ComponentContext";
 
 export default function Home() {
   const navigate = useNavigate();
   const handleNavigation = () => {
     navigate("/sendTokens"); // Adjust the route path as needed
   };
+
+  const handleCopyAddress = () => {
+    if (state.address) {
+      navigator.clipboard
+        .writeText(state.address)
+        .then(() => {
+          alert("Wallet Address Copied to clipboard");
+        })
+        .catch(() => {
+          alert("Error occured while copying address");
+        });
+    }
+  };
+
+  const { state } = useComponentContext();
   return (
     <>
       <main className=" bg-blue-50 w-1/3 h-full flex items-center flex-col pt-1 rounded-sm shadow-myShadow ">
         <div className=" cursor-pointer flex flex-row items-center justify-center bg-slate-300 text-sm gap-x-2 py-0 px-2 rounded-sm">
-          <p>0xEDCFC....70ASD</p>
-          <FaCopy />
+          {state.connected ? (
+            <p>{state.address}</p>
+          ) : (
+            <p>No Wallet Connected</p>
+          )}
+          <FaCopy onClick={handleCopyAddress} />
         </div>
         <h1 className=" text-3xl text-customDarkBlue font-bold mt-4">
-          17.353453 ETH
+          {state.balance || "0 ETH"}
         </h1>
         <button
           className="rounded-full h-16 w-16 mt-4 border bg-customDarkBlue border-black flex justify-center items-center flex-col cursor-pointer p-0 m-0 shadow-custom hover:bg-blue-950 "
