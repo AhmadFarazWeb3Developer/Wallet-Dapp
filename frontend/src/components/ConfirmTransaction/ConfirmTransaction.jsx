@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoChevronBackCircle } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
@@ -8,12 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 export default function ConfirmTransaction() {
   const navigate = useNavigate();
+
+  const [senderAddress, setSenderAddress] = useState();
+
+  useEffect(() => {
+    const address = localStorage.getItem("walletAddress");
+    setSenderAddress(address);
+  }, []);
   const handleBackNavigate = () => {
     navigate("/sendTokens");
   };
   const handleReject = () => {
     navigate("/");
   };
+
   return (
     <main className=" bg-customDarkBlue w-1/3 h-4/5 mt-10 flex items-center flex-col  rounded-md shadow-myShadow pt-2">
       <header className="flex items-center w-full pl-4 ">
@@ -23,10 +31,19 @@ export default function ConfirmTransaction() {
         <h1 className=" ml-2 text-blue-800">Edit</h1>
       </header>
       <div className="flex justify-start flex-col w-11/12  mt-10">
-        <div className="flex items-center justify-between border-2 border-purple-800 rounded-sm py-2 px-4 bg-purple-900 shadow-custom ">
+        <div className="flex items-center justify-between gap-2 border-2 border-purple-800 rounded-sm py-2 px-2 bg-purple-900 shadow-custom ">
           <div className="flex items-center gap-1">
             <RxAvatar size={40} />
-            <label className=" font-bold">Account Name</label>
+            <label className="">
+              {" "}
+              {senderAddress
+                ? `${senderAddress
+                    .slice(0, 6)
+                    .toUpperCase()}.....${senderAddress
+                    .slice(-6)
+                    .toUpperCase()}`
+                : "No Address"}
+            </label>
           </div>
           <div className="border border-purple-500 rounded-full">
             <IoIosArrowRoundForward

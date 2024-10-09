@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FaCopy } from "react-icons/fa";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Transaction from "../Transaction/Transaction";
 import { IoMdArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import SendTokens from "../../SendTokens/SendTokens";
 import { useComponentContext } from "../../../blockchain/context/ComponentContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { state } = useComponentContext();
+
   const handleNavigation = () => {
-    navigate("/sendTokens"); // Adjust the route path as needed
+    if (state.address) {
+      navigate("/sendTokens");
+    }
   };
 
   const handleCopyAddress = () => {
@@ -21,12 +24,11 @@ export default function Home() {
           alert("Wallet Address Copied to clipboard");
         })
         .catch(() => {
-          alert("Error occured while copying address");
+          alert("Error occurred while copying address");
         });
     }
   };
 
-  const { state } = useComponentContext();
   return (
     <>
       <main className=" bg-blue-50 w-1/3 h-full flex items-center flex-col pt-1 rounded-sm shadow-myShadow ">
@@ -42,8 +44,13 @@ export default function Home() {
           {state.balance || "0 ETH"}
         </h1>
         <button
-          className="rounded-full h-16 w-16 mt-4 border bg-customDarkBlue border-black flex justify-center items-center flex-col cursor-pointer p-0 m-0 shadow-custom hover:bg-blue-950 "
+          className={`rounded-full h-16 w-16 mt-4 border bg-customDarkBlue border-black flex justify-center items-center flex-col p-0 m-0 shadow-custom ${
+            state.address
+              ? "cursor-pointer hover:bg-blue-950"
+              : "cursor-not-allowed opacity-50"
+          }`}
           onClick={handleNavigation}
+          disabled={!state.address}
         >
           <IoIosArrowRoundForward
             size={60}
