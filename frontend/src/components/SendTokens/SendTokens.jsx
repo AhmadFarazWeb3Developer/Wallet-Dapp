@@ -55,7 +55,7 @@ export default function SendTokens() {
         </div>
         <h1 className=" ml-32 font-semibold  text-gray-100">Send a Token</h1>
       </header>
-      <div className="flex justify-start flex-col w-11/12  mt-10">
+      <div className="flex justify-start flex-col w-11/12  ">
         <div className="label">
           <span className="label-text">From</span>
         </div>
@@ -81,7 +81,7 @@ export default function SendTokens() {
           </div>
         </div>
       </div>
-      <div className="w-11/12 mt-6">
+      <div className="w-11/12 mt-4">
         <div className="label">
           <span className="label-text">To</span>
         </div>
@@ -100,18 +100,36 @@ export default function SendTokens() {
           />
         </div>
       </div>
-
-      <div className=" flex justify-around gap-5 items-center  w-2/3  mt-10">
+      <div className="w-11/12 mt-4">
+        <div className="label">
+          <span className="label-text">Amount</span>
+        </div>
+        <div>
+          {error && (
+            <label htmlFor="" className=" text-red-300">
+              {error}
+            </label>
+          )}
+          <input
+            type="text"
+            value={ReceiverAddress}
+            onChange={handleAddressChange}
+            placeholder="Enter Amount of ETH"
+            className="input input-primary w-full text-center bg-customDarkBlue border-2 rounded-sm h-16  "
+          />
+        </div>
+      </div>
+      <div className=" flex items-center justify-center gap-5 w-2/3 mt-10 ">
         <div
           onClick={handleCancel}
-          className="flex justify-between items-center w-full py-2 px-6 border border-blue-800 shadow-2xl hover:bg-blue-950 rounded-3xl cursor-pointer"
+          className="flex justify-between items-center w-2/3 py-2 px-6 border border-blue-800 shadow-2xl hover:bg-blue-950 rounded-3xl cursor-pointer"
         >
           <p className=" text-customBlue font-medium">Cancel</p>
           <RxCross2 size={24} color="#326BFF" />
         </div>
         <div
           onClick={handleContinueNavigate}
-          className="flex justify-around items-center w-full py-2 px-6 bg-blue-800 hover:bg-customBlue shadow-4xl text-white rounded-3xl cursor-pointer"
+          className="flex justify-around items-center w-2/3 py-2 px-6 bg-blue-800 hover:bg-customBlue shadow-4xl text-white rounded-3xl cursor-pointer"
         >
           <p className=" font-medium items-center">Continue</p>
           <div className="flex items-center">
