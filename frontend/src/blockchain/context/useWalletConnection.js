@@ -30,6 +30,7 @@ const useWalletContext = () => {
           }));
 
           localStorage.setItem("walletAddress", walletAddress);
+          localStorage.setItem("Eth", balance);
         }
       } catch (error) {
         console.error("Error connecting to wallet:", error);
