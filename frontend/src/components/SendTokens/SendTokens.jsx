@@ -5,11 +5,16 @@ import { RxCross2 } from "react-icons/rx";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import "./SendToken.css";
 import { useNavigate } from "react-router-dom";
+import { useComponentContext } from "../../blockchain/context/ComponentContext";
+import { useWalletContext } from "../../blockchain/context/useWalletConnection";
 
 export default function SendTokens() {
+  const { state } = useComponentContext();
   const [senderAddress, setSenderAddress] = useState();
   const [ReceiverAddress, setReceiverAddress] = useState("");
-  const [error, setError] = useState("");
+  const [ethValue, setEthValue] = useState(0);
+  const [addressError, setAddressError] = useState("");
+  const [ethError, setEthError] = useState("");
 
   useEffect(() => {
     setSenderAddress(localStorage.getItem("walletAddress"));
@@ -26,11 +31,11 @@ export default function SendTokens() {
 
   const handleContinueNavigate = () => {
     if (ReceiverAddress.length !== 42 || !ReceiverAddress.startsWith("0x")) {
-      setError(
+      setAddressError(
         "Invalid address. Please enter a valid 42-character address starting with 0x."
       );
     } else {
-      setError("");
+      setAddressError("");
       navigate("/confirmTransaction");
     }
   };
@@ -40,11 +45,24 @@ export default function SendTokens() {
     setReceiverAddress(value);
 
     if (value.length !== 42 || !value.startsWith("0x")) {
-      setError(
+      setAddressError(
         "Invalid address. Please enter a valid 42-character address starting with 0x."
       );
     } else {
-      setError("");
+      setAddressError("");
+    }
+  };
+  const handleEthChange = (e) => {
+    const value = parseFloat(e.target.value);
+    setEthValue(value);
+    console.log("Balance : ", state.balance);
+
+    if (value <= 0) {
+      setEthError("Please enter a valid amount of ETH greater than 0.");
+    } else if (value > state.balance) {
+      setEthError("ETH value cannot be greater than your available balance.");
+    } else {
+      setEthError("");
     }
   };
   return (
@@ -86,9 +104,9 @@ export default function SendTokens() {
           <span className="label-text">To</span>
         </div>
         <div>
-          {error && (
+          {addressError && (
             <label htmlFor="" className=" text-red-300">
-              {error}
+              {addressError}
             </label>
           )}
           <input
@@ -105,15 +123,15 @@ export default function SendTokens() {
           <span className="label-text">Amount</span>
         </div>
         <div>
-          {error && (
+          {ethError && (
             <label htmlFor="" className=" text-red-300">
-              {error}
+              {ethError}
             </label>
           )}
           <input
             type="text"
-            value={ReceiverAddress}
-            onChange={handleAddressChange}
+            value={ethValue}
+            onChange={handleEthChange}
             placeholder="Enter Amount of ETH"
             className="input input-primary w-full text-center bg-customDarkBlue border-2 rounded-sm h-16  "
           />

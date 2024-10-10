@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useComponentContext } from "./ComponentContext";
 
 const useWalletContext = () => {
-  const { state, setState } = useComponentContext();
+  const { setState } = useComponentContext();
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -26,10 +26,9 @@ const useWalletContext = () => {
             ...prevState,
             address: walletAddress,
             connected: true,
-            balance: ethers.formatEther(balance), // Format the balance to Ether
+            balance: ethers.formatEther(balance),
           }));
 
-          // Store wallet address in localStorage
           localStorage.setItem("walletAddress", walletAddress);
         }
       } catch (error) {
