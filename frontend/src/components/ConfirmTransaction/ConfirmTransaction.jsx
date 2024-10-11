@@ -10,10 +10,12 @@ export default function ConfirmTransaction() {
   const navigate = useNavigate();
 
   const [senderAddress, setSenderAddress] = useState();
-
+  const [balance, setBalance] = useState();
   useEffect(() => {
     const address = localStorage.getItem("walletAddress");
+    const balance = localStorage.getItem("balance");
     setSenderAddress(address);
+    setBalance(balance);
   }, []);
   const handleBackNavigate = () => {
     navigate("/sendTokens");
@@ -64,7 +66,7 @@ export default function ConfirmTransaction() {
           </p>
         </div>
         <h2 className=" text-white font-extrabold  tracking-widest italic mt-2">
-          0.0000001 ?
+          {balance} ?
         </h2>
       </div>
 
