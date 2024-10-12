@@ -30,6 +30,7 @@ export default function SendTokens() {
 
   const handleContinueNavigate = () => {
     if (!addressError && !ethError) {
+      localStorage.setItem("balance", balance);
       navigate("/confirmTransaction");
     }
   };

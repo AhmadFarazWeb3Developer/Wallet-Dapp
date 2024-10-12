@@ -15,7 +15,8 @@ export default function ConfirmTransaction() {
     const address = localStorage.getItem("walletAddress");
     const balance = localStorage.getItem("balance");
     setSenderAddress(address);
-    setBalance(balance);
+    // setBalance(balance);
+    console.log(balance);
   }, []);
   const handleBackNavigate = () => {
     navigate("/sendTokens");
