@@ -5,7 +5,8 @@ import { RxCross2 } from "react-icons/rx";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-
+import { writeContract } from "../../blockchain/WriteContractInstance";
+import { ethers } from "ethers";
 export default function ConfirmTransaction() {
   const navigate = useNavigate();
 
@@ -25,6 +26,39 @@ export default function ConfirmTransaction() {
   };
   const handleReject = () => {
     navigate("/");
+  };
+
+  const sendEthersNow = async () => {
+    try {
+      //gasPrice is the current gas base fee of the network
+      const walletProvider = new ethers.BrowserProvider(window.ethereum);
+      const gasPrice = await walletProvider.send("eth_gasPrice", []);
+      const amountInWei = ethers.formatEther(ethValue);
+      console.log("Amount In Wei : ", amountInWei);
+      const gasLimit = await writeContract.transferFunds.estimateGas(
+        senderAddress,
+        {
+          value: amountInWei,
+        }
+      );
+
+      const tx = await writeContract.transferFunds(senderAddress, {
+        value: amountInWei,
+        gasLimit: gasLimit,
+        gasPrice: gasPrice,
+      });
+      // Geeting Transaction Hash for verification
+      console.log("Transaction sent:", tx.hash);
+
+      const receipt = await tx.wait();
+      // Wating for the transaction status
+      console.log(receipt);
+    } catch (error) {
+      console.error("Error sending transaction:", error);
+      if (error.code === "CALL_EXCEPTION") {
+        console.error("Transaction reverted. Reason:", error.reason);
+      }
+    }
   };
 
   return (
@@ -89,7 +123,10 @@ export default function ConfirmTransaction() {
           <p className=" text-customBlue font-medium">Reject</p>
           <RxCross2 size={24} color="#326BFF" />
         </div>
-        <div className="flex  justify-around items-center w-full py-2 px-6 bg-blue-800 hover:bg-customBlue shadow-4xl text-white rounded-3xl cursor-pointer">
+        <div
+          onClick={sendEthersNow}
+          className="flex  justify-around items-center w-full py-2 px-6 bg-blue-800 hover:bg-customBlue shadow-4xl text-white rounded-3xl cursor-pointer"
+        >
           <p className=" font-medium items-center">Confirm</p>
           <div className="flex items-center justify-center">
             <IoArrowForwardOutline size={24} />
