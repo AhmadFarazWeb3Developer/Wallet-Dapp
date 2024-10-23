@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 export default function SendTokens() {
   const [senderAddress, setSenderAddress] = useState();
   const [balance, setBalance] = useState(0);
-  const [ReceiverAddress, setReceiverAddress] = useState("");
+  const [receiverAddress, setReceiverAddress] = useState("");
   const [ethValue, setEthValue] = useState(0);
   const [addressError, setAddressError] = useState("");
   const [ethError, setEthError] = useState("");
 
   useEffect(() => {
     setSenderAddress(localStorage.getItem("walletAddress"));
-    setBalance(parseFloat(localStorage.getItem("Eth")) || 0); // Ensure balance is a number
+    setBalance(parseFloat(localStorage.getItem("Eth")) || 0);
   }, []);
 
   const navigate = useNavigate();
@@ -30,7 +30,8 @@ export default function SendTokens() {
 
   const handleContinueNavigate = () => {
     if (!addressError && !ethError) {
-      localStorage.setItem("balance", balance);
+      localStorage.setItem("ethValue", ethValue);
+      localStorage.setItem("receiverAddress", receiverAddress);
       navigate("/confirmTransaction");
     }
   };
@@ -105,7 +106,7 @@ export default function SendTokens() {
           )}
           <input
             type="text"
-            value={ReceiverAddress}
+            value={receiverAddress}
             onChange={handleAddressChange}
             placeholder="Enter Public Address (0x)"
             className="input input-primary w-full text-center bg-customDarkBlue border-2 rounded-sm h-16"
@@ -146,7 +147,7 @@ export default function SendTokens() {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-800 hover:bg-customBlue cursor-pointer"
           } shadow-4xl text-white rounded-3xl`}
-          disabled={!!ethError || !!addressError} // Disable button when errors exist
+          disabled={!!ethError || !!addressError}
         >
           <p className="font-medium items-center">Continue</p>
           <div className="flex items-center">

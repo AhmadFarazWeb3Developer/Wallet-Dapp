@@ -10,13 +10,15 @@ export default function ConfirmTransaction() {
   const navigate = useNavigate();
 
   const [senderAddress, setSenderAddress] = useState();
-  const [balance, setBalance] = useState();
+  const [ethValue, setEthValue] = useState();
+  const [receiverAddress, setReceiverAddress] = useState();
   useEffect(() => {
     const address = localStorage.getItem("walletAddress");
-    const balance = localStorage.getItem("balance");
+    setEthValue(localStorage.getItem("ethValue"));
+    setReceiverAddress(localStorage.getItem("receiverAddress"));
     setSenderAddress(address);
-    // setBalance(balance);
-    console.log(balance);
+    console.log(ethValue);
+    console.log(receiverAddress);
   }, []);
   const handleBackNavigate = () => {
     navigate("/sendTokens");
@@ -56,7 +58,15 @@ export default function ConfirmTransaction() {
             />
           </div>
           <div className="border border-customBlue py-1 px-2  rounded-3xl">
-            <p className=" text-customBlue">0XEL32C.....23LDA</p>
+            <p className=" text-customBlue">
+              {receiverAddress
+                ? `${receiverAddress
+                    .slice(0, 6)
+                    .toUpperCase()}.....${receiverAddress
+                    .slice(-6)
+                    .toUpperCase()}`
+                : "No Address"}
+            </p>
           </div>
         </div>
       </div>
@@ -67,7 +77,7 @@ export default function ConfirmTransaction() {
           </p>
         </div>
         <h2 className=" text-white font-extrabold  tracking-widest italic mt-2">
-          {balance} ?
+          {ethValue} ?
         </h2>
       </div>
 
