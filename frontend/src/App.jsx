@@ -2,7 +2,7 @@ import "./App.css";
 import ConfirmTransaction from "./components/ConfirmTransaction/ConfirmTransaction";
 import SendTokens from "./components/SendTokens/SendTokens";
 import { Main } from "./components/Main/Main";
-import { Transaction } from "./components/TransactionDetails/Transaction";
+// import { Transaction } from "./components/TransactionDetails/Transaction";
 import { Route, Routes } from "react-router-dom";
 import { ComponentProvider } from "./blockchain/context/ComponentContext";
 function App() {
@@ -17,7 +17,7 @@ function App() {
               path="/confirmTransaction"
               element={<ConfirmTransaction />}
             />
-            <Route path="/transaction" element={<Transaction />} />
+            {/* <Route path="/transaction" element={<Transaction />} /> */}
           </Routes>
         </ComponentProvider>
       </section>

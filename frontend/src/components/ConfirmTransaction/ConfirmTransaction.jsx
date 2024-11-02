@@ -18,9 +18,9 @@ export default function ConfirmTransaction() {
     setEthValue(localStorage.getItem("ethValue"));
     setReceiverAddress(localStorage.getItem("receiverAddress"));
     setSenderAddress(address);
-    console.log(ethValue);
+    console.log("Eth Value :", ethValue);
     console.log(receiverAddress);
-  }, []);
+  }, [ethValue, receiverAddress]);
   const handleBackNavigate = () => {
     navigate("/sendTokens");
   };
@@ -30,10 +30,10 @@ export default function ConfirmTransaction() {
 
   const sendEthersNow = async () => {
     try {
-      //gasPrice is the current gas base fee of the network
       const walletProvider = new ethers.BrowserProvider(window.ethereum);
       const gasPrice = await walletProvider.send("eth_gasPrice", []);
-      const amountInWei = ethers.formatEther(ethValue);
+      // const amountInWei = ethers.formatEther(ethValue);
+      const amountInWei = ethers.parseEther(ethValue.toString());
       console.log("Amount In Wei : ", amountInWei);
       const gasLimit = await writeContract.transferFunds.estimateGas(
         senderAddress,
